@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H & R Solutions</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="email" placeholder="Email" required="True">
+        <input type="text" name="number" placeholder="Number">
+        <input type="password" name="password" placeholder="Password" required="True">
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" required="True">
+        <button type="submit">Sign Up</button>
+        {% if signed_up %}
+        {{ msg }}
+        {% endif %}
+        {% if email_exists %}
+        {{ msg }}
+        {% endif %}
+        
+    </form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+web: gunicorn bstech.wsgi --log-file -
