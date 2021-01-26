@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from app.models import Account
-import hashlib, datetime
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import viewsets
 from .serializers import AccountSerializer
-import requests
+import hashlib, datetime, requests, os, subprocess, json
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
