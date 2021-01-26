@@ -25,14 +25,17 @@ def condom_view(request):
 
 def eye_view(request):
     if request.method=='GET':
-        response = requests.get("https://ipgeolocation.abstractapi.com/v1/?api_key=c647dce634e344dd98f04275c22d71bd&ip_address=102.176.94.71")
-        ip=response.json()['ip_address']
-        city=response.json()['city']
-        country=response.json()['country']
-        continent=response.json()['continent']
-        isVPN=response.json()['security']['is_vpn']
-        carrier=response.json()['connection']['autonomous_system_organization']
-        connection_type=response.json()['connection']['connection_type']
+        request_ip=subprocess.check_output(["curl --silent -H'X-Forwarded-For: 8.8.8.8' http://httpbin.org/ip"], shell=True)
+        ip=json.loads(request_ip.decode())['origin'].split(',')[1].strip()
+        response = requests.get("https://ipgeolocation.abstractapi.com/v1/", params={'api_key': "c647dce634e344dd98f04275c22d71bd", 'ip_address': ip}).json()
+        ip=response['ip_address']
+        city=response['city']
+        country=response['country']
+        continent=response['continent']
+        isVPN=response['security']['is_vpn']
+        carrier=response['connection']['autonomous_system_organization']
+        carrier="MTN" if carrier.startswith("Scancom Ltd.") else carrier
+        connection_type=response['connection']['connection_type']
         context = {'ip':ip, 'city':city, 'country':country, 'continent': continent, 'isVPN':isVPN, 'carrier':carrier, 'connection_type': connection_type}
     return render(request, 'tools/eye.html', context)
 
