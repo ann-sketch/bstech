@@ -23,7 +23,17 @@ def condom_view(request):
     return render(request, 'tools/condom.html')
 
 def eye_view(request):
-    return render(request, 'tools/eye.html')
+    if request.method=='GET':
+        response = requests.get("https://ipgeolocation.abstractapi.com/v1/?api_key=c647dce634e344dd98f04275c22d71bd&ip_address=102.176.94.71")
+        ip=response.json()['ip_address']
+        city=response.json()['city']
+        country=response.json()['country']
+        continent=response.json()['continent']
+        isVPN=response.json()['security']['is_vpn']
+        carrier=response.json()['connection']['autonomous_system_organization']
+        connection_type=response.json()['connection']['connection_type']
+        context = {'ip':ip, 'city':city, 'country':country, 'continent': continent, 'isVPN':isVPN, 'carrier':carrier, 'connection_type': connection_type}
+    return render(request, 'tools/eye.html', context)
 
 
 def signup_view(request):
