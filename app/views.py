@@ -5,6 +5,7 @@ import hashlib, datetime
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import viewsets
 from .serializers import AccountSerializer
+import requests
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
